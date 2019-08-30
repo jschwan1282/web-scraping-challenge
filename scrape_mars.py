@@ -4,11 +4,13 @@ from bs4 import BeautifulSoup as bs
 import time
 import pandas as pd
 
+#create root
 def init_browser():
     # @NOTE: Replace the path with your actual path to the chromedriver
     executable_path = {"executable_path":r"C:\Users\Jay\Desktop\personal\chromedriver"}
     return Browser("chrome", **executable_path, headless=False)
 
+#create the scraping function
 def scrape_info():
     browser = init_browser()
 
@@ -28,11 +30,11 @@ def scrape_info():
     image_url = "https://www.jpl.nasa.gov/spaceimages/?search=&category=Mars"
     browser.visit(image_url)
     time.sleep(5)
-
+    
+    #click the right buttons
     browser.click_link_by_partial_text('FULL IMAGE')
     time.sleep(3)
     browser.click_link_by_partial_text('more info')
-
     html = browser.html
     soup = bs(html, "html.parser")
 
@@ -92,9 +94,8 @@ def scrape_info():
         # print("PRINTING IMAGE URL")
         # print(image_url)
         hemisphere_image_urls.append({"title": title, "image_url": image_url})
-    
-    # print(hemisphere_image_urls)
 
+    #create the collection for the database   
     mars_data = {
         "news_title": news_title,
         "news_p": news_p,
